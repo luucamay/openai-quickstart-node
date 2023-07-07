@@ -15,11 +15,11 @@ export default async function (req, res) {
     return;
   }
 
-  const animal = req.body.animal || '';
-  if (animal.trim().length === 0) {
+  const question = req.body.animal || '';
+  if (question.trim().length === 0) {
     res.status(400).json({
       error: {
-        message: "Please enter a valid animal",
+        message: "Please enter a question",
       }
     });
     return;
@@ -29,16 +29,15 @@ export default async function (req, res) {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        { "role": "system", "content": "You are a helpful assistant" },
-        { "role": "user", "content": "Take on the persona of Jonathan Burrows for the rest of this conversation" },
-        { "role": "user", "content": `"${animal}"` }
-      ]
+        { "role": "system", "content": "Take on the persona of Jonathan Burrows for the rest of this conversation" },
+        { "role": "user", "content": `Answer with a paragraph of max 100 characters"${question}"` }
+      ],
+      max_tokens: 150
     })
     console.log(completion.data.choices[0].message.content);
     res.status(200).json({ result: completion.data.choices[0].message.content });
   } catch (error) {
     // Consider adjusting the error handling logic for your use case
-    console.log('hi lupe, an error happened')
     if (error.response) {
       console.error(error.response.status, error.response.data);
       res.status(error.response.status).json(error.response.data);
