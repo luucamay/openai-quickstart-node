@@ -36,7 +36,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Ask a question to a Choreographer</title>
-        <link rel="icon" href="/dog.png" />
+        <link rel="icon" href="/rainbow.svg" />
       </Head>
 
       <main className={styles.main}>
