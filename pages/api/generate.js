@@ -15,7 +15,9 @@ export default async function (req, res) {
     return;
   }
 
-  const question = req.body.animal || '';
+  const artist = req.body.artist || '';
+  console.log({ artist });
+  const question = req.body.question || '';
   if (question.trim().length === 0) {
     res.status(400).json({
       error: {
@@ -29,8 +31,8 @@ export default async function (req, res) {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [
-        { "role": "system", "content": "Take on the persona of Jonathan Burrows for the rest of this conversation" },
-        { "role": "user", "content": `Answer with a paragraph of max 100 characters"${question}"` }
+        { "role": "system", "content": `Take on the persona of ${artist} for the rest of this conversation` },
+        { "role": "user", "content": `Answer with a paragraph of max 150 characters the next question: "${question}"` }
       ],
       max_tokens: 150
     })

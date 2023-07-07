@@ -3,7 +3,8 @@ import { useState } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [questionInput, setQuestionInput] = useState("");
+  const [artistInput, setArtistInput] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -14,7 +15,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ question: questionInput, artist: artistInput }),
       });
 
       const data = await response.json();
@@ -23,7 +24,7 @@ export default function Home() {
       }
 
       setResult(data.result);
-      setAnimalInput("");
+      setQuestionInput("");
     } catch (error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -34,20 +35,36 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
+        <title>Ask a question to a Choreographer</title>
         <link rel="icon" href="/dog.png" />
       </Head>
 
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Question for the artist</h3>
+        <img src="/rainbow.svg" className={styles.icon} />
+        <h3>Question for the choreographer</h3>
         <form onSubmit={onSubmit}>
+          <label for="choreographer-select">Choose an choreographer:</label>
+          <select name="choreographers" id="choreographer-select"
+            onChange={(e) => setArtistInput(e.target.value)}
+          >
+            <option value="Jonathan Burrows">Jonathan Burrows</option>
+            <option value="Martha Graham">Martha Graham</option>
+            <option value="George Balanchine">George Balanchine</option>
+            <option value="Merce Cunningham">Merce Cunningham</option>
+            <option value="Pina Bausch">Pina Bausch</option>
+            <option value="William Forsythe">William Forsythe</option>
+            <option value="Alvin Ailey">Alvin Ailey</option>
+            <option value="Jiří Kylián">Jiří Kylián</option>
+            <option value="Twyla Tharp">Twyla Tharp</option>
+            <option value="Akram Khan">Akram Khan</option>
+            <option value="Crystal Pite">Crystal Pite</option>
+          </select>
           <input
             type="text"
-            name="animal"
+            name="question"
             placeholder="Enter a question"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            value={questionInput}
+            onChange={(e) => setQuestionInput(e.target.value)}
           />
           <input type="submit" value="Generate answer" />
         </form>
